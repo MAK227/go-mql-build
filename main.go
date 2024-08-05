@@ -148,18 +148,20 @@ func main() {
 
 	readFileCache = make(map[string][]string)
 
-	pwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
+	// pwd, err := os.Getwd()
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	targetPath := strings.Split(target, "/")
 	logfile := strings.Split(targetPath[len(targetPath)-1], ".")[0] + ".log"
 
-	path := strings.Split(pwd, "/")
-	lang := path[len(path)-1]
-	broker := strings.Join(strings.Split(path[len(path)-2], " ")[0:2], " ")
-	platform := strings.Join(strings.Split(path[len(path)-2], " ")[1:], " ")
+	// path := strings.Split(pwd, "/")
+	lang := "MQL4"
+	broker := "MetaQuotes"
+	platform := "MetaTrader"
+	// broker := strings.Join(strings.Split(path[len(path)-2], " ")[0:2], " ")
+	// platform := strings.Join(strings.Split(path[len(path)-2], " ")[1:], " ")
 
 	styles := log.DefaultStyles()
 
@@ -210,8 +212,7 @@ func main() {
 	runCompileCmd := func() {
 		outputStr, status = compile(target, logfile)
 	}
-
-	err = spinner.New().
+	err := spinner.New().
 		Type(randomSpinner).
 		Title(SpinnerStyle.
 			Render(
