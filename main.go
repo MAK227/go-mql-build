@@ -21,6 +21,7 @@ import (
 	"golang.org/x/exp/rand"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+	ini "gopkg.in/ini.v1"
 )
 
 var spinners = []spinner.Type{
@@ -144,6 +145,12 @@ func CenterString(str string, width int, color string) string {
 }
 
 func main() {
+	cfg, err := ini.Load("../config/terminal.ini")
+	if err != nil {
+		fmt.Printf("Fail to read file: %v", err)
+		os.Exit(1)
+	}
+
 	target := os.Args[1]
 
 	readFileCache = make(map[string][]string)
@@ -158,8 +165,7 @@ func main() {
 
 	// path := strings.Split(pwd, "/")
 	lang := "MQL4"
-	broker := "MetaQuotes"
-	platform := "MetaTrader"
+	broker := cfg.Section("Settings").Key("LastScanServer").String()
 	// broker := strings.Join(strings.Split(path[len(path)-2], " ")[0:2], " ")
 	// platform := strings.Join(strings.Split(path[len(path)-2], " ")[1:], " ")
 
@@ -192,7 +198,6 @@ func main() {
 	compileTarget := map[string]string{
 		"target":   target,
 		"Broker":   broker,
-		"Platform": platform,
 		"Language": lang,
 	}
 
@@ -212,7 +217,7 @@ func main() {
 	runCompileCmd := func() {
 		outputStr, status = compile(target, logfile)
 	}
-	err := spinner.New().
+	err = spinner.New().
 		Type(randomSpinner).
 		Title(SpinnerStyle.
 			Render(
@@ -231,21 +236,21 @@ func main() {
 
 	fmt.Println()
 
-	if status == 0 {
-		log.Print(bold.
-			Foreground(
-				lipgloss.Color(catppuccin.Mocha.Green().Hex),
-			).
-			Render("Compilation successful!"),
-		)
-	} else {
-		log.Print(bold.
-			Foreground(
-				lipgloss.Color(catppuccin.Mocha.Red().Hex),
-			).
-			Render("Failed to compile"),
-		)
-	}
+	// if status == 0 {
+	// 	log.Print(bold.
+	// 		Foreground(
+	// 			lipgloss.Color(catppuccin.Mocha.Green().Hex),
+	// 		).
+	// 		Render("Compilation successful!"),
+	// 	)
+	// } else {
+	// 	log.Print(bold.
+	// 		Foreground(
+	// 			lipgloss.Color(catppuccin.Mocha.Red().Hex),
+	// 		).
+	// 		Render("Failed to compile"),
+	// 	)
+	// }
 
 	scanner := bufio.NewScanner(strings.NewReader(outputStr))
 	var infos []Info
@@ -291,6 +296,22 @@ func main() {
 			}
 		}
 		infos = append(infos, info)
+	}
+
+	if status == 0 && totalErrors == 0 {
+		log.Print(bold.
+			Foreground(
+				lipgloss.Color(catppuccin.Mocha.Green().Hex),
+			).
+			Render("Compilation successful!"),
+		)
+	} else {
+		log.Print(bold.
+			Foreground(
+				lipgloss.Color(catppuccin.Mocha.Red().Hex),
+			).
+			Render("Failed to compile"),
+		)
 	}
 
 	/*

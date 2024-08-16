@@ -1,3 +1,6 @@
 go-mql-build
 
 dist/
+
+example*/
+*.tape
