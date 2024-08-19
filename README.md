@@ -19,6 +19,8 @@ Or install it with `go install github.com/MAK227/go-mql-build@latest`
 
 ## Usage
 
+![Usage Image](freeze.png)
+
 > [!NOTE]
 > The binary is named `go-mql-build` and should be ran from the `MQL4` directory. Files should not have spaces in their names.
 
@@ -29,8 +31,16 @@ The tool will compile the MQL4 EA/script and output the diagnostics to the termi
 
 ## Example
 
+For compilation:
+
 ```bash
-go-mql-build /path/to/your/script.mq4
+go-mql-build -c /path/to/your/script.mq4
+```
+
+For syntax check:
+
+```bash
+go-mql-build -s /path/to/your/script.mq4
 ```
 
 ## Usage Gif
