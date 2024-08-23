@@ -17,13 +17,7 @@ func compileMetaEditor(target, logfile string, cfg *MQLConfig) (outputStr string
 
 	// for linux and mac
 
-	prefix := "wine"
-
-	if cfg.WinePrefix != "" {
-		prefix = cfg.WinePrefix + " wine"
-	}
-
-	cmd := exec.Command(prefix, cfg.MetaEditorPath, "/compile:"+target, "/log:"+logfile)
+	cmd := exec.Command("wine", cfg.MetaEditorPath, "/compile:"+target, "/log:"+logfile)
 
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command(cfg.MetaEditorPath, "/compile:"+target, "/log:"+logfile)

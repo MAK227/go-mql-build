@@ -18,7 +18,6 @@ type MQLConfig struct {
 	Syntax         string
 	Help           bool
 	MetaEditorPath string
-	WinePrefix     string
 	PreserveLogs   bool
 }
 
@@ -75,11 +74,6 @@ func (c *MQLConfig) ParseCLIArgs() {
 	flag.StringVarP(&c.MetaEditorPath, "meta-editor", "m", defaultMetaEditorPath, Highlight(
 		"Sets the path to the %setaeditor.exe \nOr picks from $MQL4_METAEDITOR_PATH environment variable",
 		"m",
-	))
-
-	flag.StringVarP(&c.WinePrefix, "wine-prefix", "w", os.Getenv("WINE_PREFIX"), Highlight(
-		"Sets the path to the %sine prefix \nOr picks from $WINE_PREFIX environment variable if not passed. Defaults to no prefix",
-		"w",
 	))
 
 	flag.ErrHelp = errors.New("\n" + HelpStyle.Render("Go-MQL's help & usage menu"))

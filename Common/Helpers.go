@@ -132,6 +132,13 @@ func DecodeUTF16(b []byte) (string, error) {
 	return ret.String(), nil
 }
 
+func removeNonAscii(str string) string {
+	re := regexp.MustCompile("[[:^ascii:]]")
+	t := re.ReplaceAllLiteralString(str, "")
+
+	return t
+}
+
 func CenterString(str string, width int, color string) string {
 	spaces := int(float64(width-len(str)) / 2)
 	fg := lipgloss.NewStyle().Foreground(lipgloss.Color(color))
@@ -160,30 +167,22 @@ func ParseLogFile(outputStr string, status int, mode string) (diagnostics Diagno
 
 		// : information: result 0 errors, 0 warnings, 18 msec elapsed
 
+		resultPrefix := "Result:"
+
 		if mode == "syntax" {
-			if strings.HasPrefix(line, " : information: result") {
-				result := strings.Split(line, ",")
-				fmt.Sscanf(result[0], ": information: result %d errors", &diagnostics.totalErrors)
-				fmt.Sscanf(result[1], "%d warnings", &diagnostics.totalWarnings)
-				if len(result) > 2 {
-					fmt.Sscanf(result[2], "%s elapsed", &diagnostics.elapsedTime)
-				} else {
-					diagnostics.elapsedTime = "0"
-				}
-				continue
+			resultPrefix = " : information: result"
+		}
+
+		if strings.HasPrefix(line, resultPrefix) {
+			result := strings.Split(line, ",")
+			fmt.Sscanf(result[0], "Result: %d errors", &diagnostics.totalErrors)
+			fmt.Sscanf(result[1], "%d warnings", &diagnostics.totalWarnings)
+			if len(result) > 2 {
+				fmt.Sscanf(result[2], "%s elapsed", &diagnostics.elapsedTime)
+			} else {
+				diagnostics.elapsedTime = "0"
 			}
-		} else if mode == "compile" {
-			if strings.HasPrefix(line, "Result:") {
-				result := strings.Split(line, ",")
-				fmt.Sscanf(result[0], "Result: %d errors", &diagnostics.totalErrors)
-				fmt.Sscanf(result[1], "%d warnings", &diagnostics.totalWarnings)
-				if len(result) > 2 {
-					fmt.Sscanf(result[2], "%s elapsed", &diagnostics.elapsedTime)
-				} else {
-					diagnostics.elapsedTime = "0"
-				}
-				continue
-			}
+			continue
 		}
 
 		info := Info{}
@@ -243,12 +242,12 @@ func PrintDiagnostics(diagnostics Diagnostic, readFileCache map[string][]string)
 		}
 
 		if info.Type == "information" {
-			fileName := strings.ReplaceAll(info.FileName, "\\", "/")
+			fileName := removeNonAscii(strings.ReplaceAll(info.FileName, "\\", "/"))
 			Logger.Info(cases.Title(language.English).String(strings.Split(info.Message, " ")[0]), "Script", fileName)
 			fmt.Println()
 		} else {
 
-			fileName := strings.ReplaceAll(info.ScriptName, "\\", "/")
+			fileName := removeNonAscii(strings.ReplaceAll(info.ScriptName, "\\", "/"))
 			header := fmt.Sprintf(
 				" Script: %s | Char: %d | Type: %s | Code: %d ",
 				info.ScriptName,
@@ -262,6 +261,7 @@ func PrintDiagnostics(diagnostics Diagnostic, readFileCache map[string][]string)
 				// if not, read the file and save it into the cache
 				fileContents, err := os.ReadFile(fileName)
 				if err != nil {
+					// fmt.Println(err, fileName)
 					panic(err)
 				}
 
