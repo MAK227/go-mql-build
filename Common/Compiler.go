@@ -12,14 +12,21 @@ import (
 	"golang.org/x/exp/rand"
 )
 
-func compileMetaEditor(target, logfile string) (outputStr string, status int) {
+func compileMetaEditor(target, logfile string, cfg *MQLConfig) (outputStr string, status int) {
 	// MT4 should be on portable mode
 
 	// for linux and mac
-	cmd := exec.Command("wine", "../metaeditor.exe", "/compile:"+target, "/log:"+logfile)
+
+	prefix := "wine"
+
+	if cfg.WinePrefix != "" {
+		prefix = cfg.WinePrefix + " wine"
+	}
+
+	cmd := exec.Command(prefix, cfg.MetaEditorPath, "/compile:"+target, "/log:"+logfile)
 
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("../metaeditor.exe", "/compile:"+target, "/log:"+logfile)
+		cmd = exec.Command(cfg.MetaEditorPath, "/compile:"+target, "/log:"+logfile)
 	}
 
 	// check the status of the command
@@ -39,7 +46,7 @@ func compileMetaEditor(target, logfile string) (outputStr string, status int) {
 	return logFileUTF8, 0
 }
 
-func Compile(target string, logfile string, compileTarget map[string]string) (outputStr string, status int) {
+func Compile(target string, logfile string, compileTarget map[string]string, cfg *MQLConfig) (outputStr string, status int) {
 	fmt.Println()
 	Logger.Info("Compiling", Keyvals(compileTarget)...)
 	fmt.Println()
@@ -48,7 +55,7 @@ func Compile(target string, logfile string, compileTarget map[string]string) (ou
 	randomSpinner := Spinners[rand.Intn(len(Spinners))]
 
 	runCompileCmd := func() {
-		outputStr, status = compileMetaEditor(target, logfile)
+		outputStr, status = compileMetaEditor(target, logfile, cfg)
 	}
 	err := spinner.New().
 		Type(randomSpinner).

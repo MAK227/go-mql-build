@@ -1,12 +1,18 @@
 # MQL4 Build Tool
 
-A simple MQL4 build tool written in Go for Linux (through wine) and Windows. It will compile the MQL4 EA/script and output the diagnostics to the terminal.
+A simple MQL4 build tool written in Go for Linux (through wine) and Windows. It
+will compile the MQL4 EA/script and output the diagnostics to the terminal.
 
 ## Installation
 
-You can download the binary from the [Releases](https://github.com/MAK227/go-mql-build/releases) page.
+You can download the binary from the
+[Releases](https://github.com/MAK227/go-mql-build/releases) page.
 
-Or install it with `go install github.com/MAK227/go-mql-build@latest`
+Or install it with
+
+```bash
+go install github.com/MAK227/go-mql-build@latest
+```
 
 ## Building from source
 
@@ -22,12 +28,16 @@ Or install it with `go install github.com/MAK227/go-mql-build@latest`
 ![Usage Image](freeze.png)
 
 > [!NOTE]
-> The binary is named `go-mql-build` and should be ran from the `MQL4` directory. Files should not have spaces in their names.
+> The binary is named `go-mql-build` and should be ran from the `MQL4`
+> directory. Files should not have spaces in their names.
 
-The tool will compile the MQL4 EA/script and output the diagnostics to the terminal. Will also create a `.log` file with the same name as the EA/script.
+The tool will compile the MQL4 EA/script and output the diagnostics to the
+terminal. Will also create a `.log` file with the same name as the EA/script.
 
 > [!WARNING]
-> The MT4 should be ran in portable mode to have the `metaeditor.exe` and `MQL4` folder in the same directory if it's not installed in the same directory.
+> The MT4 should be ran in portable mode to have the `metaeditor.exe` and
+> `MQL4` folder in the same directory if it's not installed in the same
+> directory.
 
 ## Example
 

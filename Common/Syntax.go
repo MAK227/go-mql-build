@@ -12,14 +12,21 @@ import (
 	"golang.org/x/exp/rand"
 )
 
-func syntaxMetaEditor(target, logfile string) (outputStr string, status int) {
+func syntaxMetaEditor(target, logfile string, cfg *MQLConfig) (outputStr string, status int) {
 	// MT4 should be on portable mode
 
 	// for linux and mac
-	cmd := exec.Command("wine", "../metaeditor.exe", "/compile:"+target, "/log:"+logfile, "/s")
+
+	prefix := "wine"
+
+	if cfg.WinePrefix != "" {
+		prefix = cfg.WinePrefix + " wine"
+	}
+
+	cmd := exec.Command(prefix, cfg.MetaEditorPath, "/compile:"+target, "/log:"+logfile, "/s")
 
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("../metaeditor.exe", "/compile:"+target, "/log:"+logfile, "/s")
+		cmd = exec.Command(cfg.MetaEditorPath, "/compile:"+target, "/log:"+logfile, "/s")
 	}
 
 	// check the status of the command
@@ -39,7 +46,7 @@ func syntaxMetaEditor(target, logfile string) (outputStr string, status int) {
 	return logFileUTF8, 0
 }
 
-func SyntaxCheck(target string, logfile string, compileTarget map[string]string) (outputStr string, status int) {
+func SyntaxCheck(target string, logfile string, compileTarget map[string]string, cfg *MQLConfig) (outputStr string, status int) {
 	fmt.Println()
 	Logger.Info("Checking syntax", Keyvals(compileTarget)...)
 	fmt.Println()
@@ -51,7 +58,7 @@ func SyntaxCheck(target string, logfile string, compileTarget map[string]string)
 	// var status int
 
 	runCompileCmd := func() {
-		outputStr, status = syntaxMetaEditor(target, logfile)
+		outputStr, status = syntaxMetaEditor(target, logfile, cfg)
 	}
 	err := spinner.New().
 		Type(randomSpinner).
