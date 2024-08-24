@@ -62,3 +62,34 @@ For successful compilation:
 For failed compilation:
 
 ![Usage Gif](go-mql-fail.gif)
+
+## 🤝 Contribution
+
+Contributions are welcome! Whether you want to add new features,
+fix bugs, or improve documentation, feel free to open a pull request.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=MAK227/go-mql-build&type=Date&theme=dark)](https://star-history.com/#MAK227/go-mql-build&Date)
+
+<p style="display:flex;flex-wrap:wrap;"> <img alt="GitHub Language Count"
+src="https://img.shields.io/github/languages/count/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Top Language"
+src="https://img.shields.io/github/languages/top/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="Repo Size"
+src="https://img.shields.io/github/repo-size/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Issues"
+src="https://img.shields.io/github/issues/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Closed Issues"
+src="https://img.shields.io/github/issues-closed/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Pull Requests"
+src="https://img.shields.io/github/issues-pr/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Closed Pull Requests"
+src="https://img.shields.io/github/issues-pr-closed/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Contributors"
+src="https://img.shields.io/github/contributors/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Last Commit"
+src="https://img.shields.io/github/last-commit/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> <img alt="GitHub Commit Activity (Week)"
+src="https://img.shields.io/github/commit-activity/w/MAK227/go-mql-build"
+style="padding:5px;margin:5px;" /> </p>
