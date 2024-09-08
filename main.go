@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"runtime/debug"
 
 	common "github.com/MAK227/go-mql-build/Common"
 	catppuccin "github.com/catppuccin/go"
@@ -18,9 +17,6 @@ func main() {
 	cfg.ParseCLIArgs()
 
 	if cfg.Version {
-		if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
-			common.VERSION = info.Main.Version
-		}
 		fmt.Println("Go-MQL's version:", common.HelpStyle.
 			Render(common.VERSION),
 		)
@@ -37,9 +33,7 @@ func main() {
 
 		outputStr, status := common.Compile(cfg.Compile, logfile, compileTarget, cfg)
 
-		var diagnostics common.Diagnostic
-
-		diagnostics = common.ParseLogFile(outputStr, status, "compile")
+		diagnostics := common.ParseLogFile(outputStr, status, "compile")
 
 		common.PrintDiagnostics(diagnostics, readFileCache)
 
@@ -58,9 +52,7 @@ func main() {
 
 		outputStr, status := common.SyntaxCheck(cfg.Syntax, logfile, syntaxTarget, cfg)
 
-		var diagnostics common.Diagnostic
-
-		diagnostics = common.ParseLogFile(outputStr, status, "syntax")
+		diagnostics := common.ParseLogFile(outputStr, status, "syntax")
 
 		common.PrintDiagnostics(diagnostics, readFileCache)
 

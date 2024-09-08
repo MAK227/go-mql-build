@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"runtime/debug"
 
 	catppuccin "github.com/catppuccin/go"
 	"github.com/charmbracelet/lipgloss"
@@ -79,11 +80,15 @@ func (c *MQLConfig) ParseCLIArgs() {
 	flag.ErrHelp = errors.New("\n" + HelpStyle.Render("Go-MQL's help & usage menu"))
 	flag.CommandLine.SortFlags = false
 
+	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
+		VERSION = info.Main.Version
+	}
+
 	flag.Parse()
 
 	if !c.Version && c.Compile == "" && c.Syntax == "" {
 		flag.Usage()
 		fmt.Println()
-		fmt.Println(HelpStyle.Render("Go-MQL's help & usage menu"))
+		fmt.Println(HelpStyle.Render("Go-MQL's help & usage menu", VERSION))
 	}
 }
