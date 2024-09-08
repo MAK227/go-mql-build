@@ -14,11 +14,11 @@ import (
 var VERSION = "unknown (built from source)"
 
 type MQLConfig struct {
-	Version        bool
 	Compile        string
 	Syntax         string
-	Help           bool
 	MetaEditorPath string
+	Version        bool
+	Help           bool
 	PreserveLogs   bool
 }
 

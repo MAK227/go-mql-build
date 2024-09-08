@@ -7,7 +7,7 @@ release MSG VERSION:
     git push origin "v{{VERSION}}"
     goreleaser release --clean
     go install github.com/MAK227/go-mql-build@v{{VERSION}}
-    just commit "Updating freeze.png for {{VERSION}}"
+    just commit "Updating freeze.png for v{{VERSION}}"
 
 test: build
     go-mql-build-local -h
