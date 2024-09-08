@@ -6,17 +6,16 @@ release MSG VERSION:
     git tag "v{{VERSION}}"
     git push origin "v{{VERSION}}"
     goreleaser release --clean
+    go install github.com/MAK227/go-mql-build@v{{VERSION}}
+    just commit "Updating freeze.png for {{VERSION}}"
 
-test:
-    go mod tidy
-    go build .
-    mv go-mql-build ~/.local/bin
-    go-mql-build -h
+test: build
+    go-mql-build-local -h
 
 build:
     go mod tidy
-    go build .
-    mv go-mql-build ~/.local/bin
+    go build -o go-mql-build-local .
+    mv go-mql-build-local ~/.local/bin
 
 commit MSG:
     just freeze-source
