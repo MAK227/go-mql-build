@@ -109,7 +109,7 @@ func (m FilePicker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
-		m.height = msg.Height - 2
+		m.height = msg.Height - 3
 		m.Rerender(true)
 	}
 
@@ -117,9 +117,13 @@ func (m FilePicker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m FilePicker) View() string {
-	return lipgloss.JoinHorizontal(
+	return lipgloss.JoinVertical(
 		lipgloss.Top,
-		m.treeState,
-		m.Files[m.CurrIndex].Content,
+		helpView(),
+		lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			m.treeState,
+			m.Files[m.CurrIndex].Content,
+		),
 	)
 }

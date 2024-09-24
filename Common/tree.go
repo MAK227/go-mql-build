@@ -38,14 +38,16 @@ func (f *FileTreeNode) GenerateTree(t *tree.Tree) {
 		fileName := prefix + key
 
 		if child.Selected {
+			key = lipgloss.JoinHorizontal(
+				lipgloss.Left,
+				lipgloss.NewStyle().Foreground(lipgloss.Color("#2f334d")).Render(LEFT_HALF_CIRCLE),
+				lipgloss.NewStyle().Background(lipgloss.Color("#2f334d")).Render(key),
+				lipgloss.NewStyle().Foreground(lipgloss.Color("#2f334d")).Render(RIGHT_HALF_CIRCLE),
+			)
 			fileName = lipgloss.
 				NewStyle().
 				Foreground(lipgloss.Color("#10a3be")).
-				Render(prefix) + lipgloss.
-				NewStyle().
-				Bold(true).
-				Background(lipgloss.Color("#2f334d")).
-				Render(key)
+				Render(prefix) + key
 		}
 
 		newLeaf := tree.Root(fileName)
