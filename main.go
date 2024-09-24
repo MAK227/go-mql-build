@@ -17,7 +17,18 @@ var readFileCache map[string][]string
 func runBuild(mode string, target string, cfg *common.MQLConfig) {
 	compileTarget, logfile := common.BuildCompileTarget(target)
 
-	outputStr, status := common.Compile(target, logfile, compileTarget, cfg)
+	var outputStr string
+	status := 0
+
+	switch mode {
+	case "compile":
+		outputStr, status = common.Compile(target, logfile, compileTarget, cfg)
+	case "syntax":
+		outputStr, status = common.SyntaxCheck(target, logfile, compileTarget, cfg)
+	default:
+		fmt.Println("Invalid mode:", mode)
+		return
+	}
 
 	diagnostics := common.ParseLogFile(outputStr, status, mode)
 
@@ -55,6 +66,13 @@ func main() {
 
 	if cfg.Syntax != "" {
 		runBuild("syntax", cfg.Syntax, cfg)
+		return
+	}
+
+	if cfg.Help {
+		flag.Usage()
+		fmt.Println()
+		fmt.Println(common.HelpStyle.Render("Go-MQL's help & usage menu", common.VERSION))
 		return
 	}
 
