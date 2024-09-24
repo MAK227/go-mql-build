@@ -31,10 +31,10 @@ type Info struct {
 }
 
 type Diagnostic struct {
+	elapsedTime   string
 	info          []Info
 	totalErrors   int
 	totalWarnings int
-	elapsedTime   string
 }
 
 var Spinners = []spinner.Type{
