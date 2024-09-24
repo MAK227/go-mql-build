@@ -31,10 +31,10 @@ type Info struct {
 }
 
 type Diagnostic struct {
+	elapsedTime   string
 	info          []Info
 	totalErrors   int
 	totalWarnings int
-	elapsedTime   string
 }
 
 var Spinners = []spinner.Type{
@@ -76,6 +76,30 @@ func Keyvals(m map[string]string) []interface{} {
 		keyvals = append(keyvals, k, v)
 	}
 	return keyvals
+}
+
+// Pretty prints an error to stderr and exits the program if exitOnErr is true
+func PrintError(err error) {
+	ErrPadding := lipgloss.NewStyle().Padding(1, 2)
+	ErrorHeader := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#F1F1F1")).
+		Background(lipgloss.Color("#FF5F87")).
+		Bold(true).
+		Padding(0, 1).
+		SetString("ERROR")
+
+	if err != nil {
+		fmt.Fprintln(
+			os.Stderr,
+			ErrPadding.Render(
+				fmt.Sprintf(
+					"\n%s %s",
+					ErrorHeader.String(),
+					err.Error(),
+				),
+			),
+		)
+	}
 }
 
 var Logger *log.Logger = log.New(os.Stderr)

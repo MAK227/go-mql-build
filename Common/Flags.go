@@ -85,10 +85,4 @@ func (c *MQLConfig) ParseCLIArgs() {
 	}
 
 	flag.Parse()
-
-	if !c.Version && c.Compile == "" && c.Syntax == "" {
-		flag.Usage()
-		fmt.Println()
-		fmt.Println(HelpStyle.Render("Go-MQL's help & usage menu", VERSION))
-	}
 }
