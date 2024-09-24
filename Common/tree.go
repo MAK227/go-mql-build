@@ -1,6 +1,7 @@
 package Common
 
 import (
+	"errors"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -62,10 +63,10 @@ type File struct {
 	Selected bool
 }
 
-func getFiles(root string) []File {
+func getFiles(root string) ([]File, error) {
 	files := []File{}
 
-	_ = filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
@@ -80,10 +81,14 @@ func getFiles(root string) []File {
 		return nil
 	})
 
+	if len(files) == 0 || err != nil {
+		return []File{}, errors.New("No .mq4 files found in the current directory")
+	}
+
 	// set the first file as selected
 	files[0].Selected = true
 
-	return files
+	return files, nil
 }
 
 func (m FilePicker) buildTree(isMain bool) string {

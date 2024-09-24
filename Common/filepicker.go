@@ -53,7 +53,10 @@ func (m *FilePicker) ReadFiles(force bool) {
 }
 
 func (m FilePicker) Init() (tea.Model, tea.Cmd) {
-	files := getFiles(".")
+	files, err := getFiles(".")
+	if err != nil {
+		return m, tea.Quit
+	}
 	m.Files = files
 	m.CurrIndex = 0
 	m.width, m.height, _ = term.GetSize(0)
@@ -100,6 +103,59 @@ func (m FilePicker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					break
 				}
 			}
+
+		case "ctrl+d":
+			// select the next file
+			for i := range m.Files {
+				if m.Files[i].Selected && i < len(m.Files)-1 {
+
+					fileIndex := min(i+5, len(m.Files)-1)
+
+					m.Files[i].Selected = false
+					m.Files[fileIndex].Selected = true
+					m.CurrIndex = fileIndex
+					m.Rerender(false)
+					break
+				}
+			}
+		case "ctrl+u":
+			// select the previous file
+			for i := range m.Files {
+				if m.Files[i].Selected && i > 0 {
+
+					fileIndex := max(i-5, 0)
+
+					m.Files[i].Selected = false
+					m.Files[fileIndex].Selected = true
+					m.CurrIndex = fileIndex
+					m.Rerender(false)
+					break
+				}
+			}
+
+		case "ctrl+down":
+			// select the next file
+			for i := range m.Files {
+				if m.Files[i].Selected && i < len(m.Files)-1 {
+					m.Files[i].Selected = false
+					m.Files[len(m.Files)-1].Selected = true
+					m.CurrIndex = len(m.Files) - 1
+					m.Rerender(false)
+					break
+				}
+			}
+		case "ctrl+up":
+			// select the previous file
+			for i := range m.Files {
+				if m.Files[i].Selected && i > 0 {
+					m.Files[i].Selected = false
+					m.Files[0].Selected = true
+					m.CurrIndex = 0
+					m.Rerender(false)
+					break
+				}
+			}
+
 		case "enter", "c":
 			m.Mode = "compile"
 			return m, tea.Quit
@@ -117,13 +173,21 @@ func (m FilePicker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m FilePicker) View() string {
+	var content string
+
+	if len(m.Files) == 0 {
+		content = "No files found"
+	} else {
+		content = m.Files[m.CurrIndex].Content
+	}
+
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
 		helpView(),
 		lipgloss.JoinHorizontal(
 			lipgloss.Left,
 			m.treeState,
-			m.Files[m.CurrIndex].Content,
+			content,
 		),
 	)
 }

@@ -28,6 +28,8 @@ func helpView() string {
 	helpViewStr := "↑/↓ Move view up/down  • " +
 		"c/enter Compile target  • " +
 		"s Syntax check  • " +
+		// "ctrl+u/d Jump 5 files up/down  • " +
+		// "ctrl+up/down Jump to first/last file  • " +
 		"ctrl+c/q Exit program"
 	return lipgloss.JoinHorizontal(
 		lipgloss.Top,

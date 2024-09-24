@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -88,6 +89,11 @@ func main() {
 		}
 
 		filePicker = m.(common.FilePicker)
+
+		if len(filePicker.Files) == 0 {
+			common.PrintError(errors.New("No .mq4 files found in the current directory"))
+			return
+		}
 
 		if filePicker.Mode == "compile" {
 			runBuild("compile", filePicker.Files[filePicker.CurrIndex].Path, cfg)
