@@ -1,5 +1,7 @@
 freeze-source:
-    freeze --execute "go-mql-build -h" 
+    rm assets/freeze.png
+    freeze --execute "go-mql-build -h"
+    mv freeze.png assets/freeze.png
 
 release MSG VERSION: demo
     @just commit "{{MSG}}"
