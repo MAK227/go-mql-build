@@ -103,7 +103,15 @@ fix bugs, or improve documentation, feel free to open a pull request.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=MAK227/go-mql-build&type=Date&theme=dark)](https://star-history.com/#MAK227/go-mql-build&Date)
+<!-- [![Star History Chart](https://api.star-history.com/svg?repos=MAK227/go-mql-build&type=Date&theme=dark)](https://star-history.com/#MAK227/go-mql-build&Date) -->
+
+<a href="https://star-history.com/#MAK227/go-mql-build&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=MAK227/go-mql-build&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=MAK227/go-mql-build&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=MAK227/go-mql-build&type=Date" />
+ </picture>
+</a>
 
 <p style="display:flex;flex-wrap:wrap;"> <img alt="GitHub Language Count"
 src="https://img.shields.io/github/languages/count/MAK227/go-mql-build"
