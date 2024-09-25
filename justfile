@@ -1,7 +1,7 @@
 freeze-source:
     freeze --execute "go-mql-build -h" 
 
-release MSG VERSION:
+release MSG VERSION: demo
     @just commit "{{MSG}}"
     git tag "v{{VERSION}}"
     git push origin "v{{VERSION}}"
@@ -22,3 +22,7 @@ commit MSG:
     git add .
     git commit -m "{{MSG}}"
     git push
+
+demo:
+    vhs assets/go-mql-successful.tape
+    vhs assets/go-mql-fail.tape

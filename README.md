@@ -1,5 +1,18 @@
 # MQL4 Build Tool
 
+<!--toc:start-->
+
+- [MQL4 Build Tool](#mql4-build-tool)
+  - [Installation](#installation)
+  - [Building from source](#building-from-source)
+  - [How it works](#how-it-works)
+  - [TUI](#tui)
+  - [Example](#example)
+  - [Usage](#usage)
+  - [Contribution 🤝](#contribution-🤝)
+  - [Star History](#star-history)
+  <!--toc:end-->
+
 A simple MQL4 build tool written in Go for Linux (through wine) and Windows. It
 will compile the MQL4 EA/script and output the diagnostics to the terminal.
 
@@ -23,9 +36,9 @@ go install github.com/MAK227/go-mql-build@latest
 > [!TIP]
 > Symlink the binary to a directory in your `$PATH` to make it easier to use.
 
-## Usage
+## How it works
 
-![Usage Image](freeze.png)
+![Usage Image](assets/freeze.png)
 
 > [!NOTE]
 > The binary is named `go-mql-build` and should be ran from the `MQL4`
@@ -38,6 +51,26 @@ terminal. Will also create a `.log` file with the same name as the EA/script.
 > The MT4 should be ran in portable mode to have the `metaeditor.exe` and
 > `MQL4` folder in the same directory if it's not installed in the same
 > directory.
+
+## TUI
+
+Running the tool without any arguments will open a TUI with the file picker and preview.
+
+![TUI](assets/tui.gif)
+
+### Keybindings
+
+|    Key     | Description              |
+| :--------: | ------------------------ |
+|    `↑`     | Select the previous file |
+|    `↓`     | Select the next file     |
+| `ctrl+c/q` | Exit program             |
+|  `ctrl+u`  | Jump 5 files up          |
+|  `ctrl+d`  | Jump 5 files down        |
+| `shift+u`  | Jump to first file       |
+| `shift+d`  | Jump to last file        |
+|  `enter`   | Compile target           |
+|    `s`     | Syntax check             |
 
 ## Example
 
@@ -53,17 +86,17 @@ For syntax check:
 go-mql-build -s /path/to/your/script.mq4
 ```
 
-## Usage Gif
+## Usage
 
 For successful compilation:
 
-![Usage Gif](go-mql-success.gif)
+![Usage Gif](assets/go-mql-successful.gif)
 
 For failed compilation:
 
-![Usage Gif](go-mql-fail.gif)
+![Usage Gif](assets/go-mql-fail.gif)
 
-## 🤝 Contribution
+## Contribution 🤝
 
 Contributions are welcome! Whether you want to add new features,
 fix bugs, or improve documentation, feel free to open a pull request.

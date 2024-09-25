@@ -42,11 +42,14 @@ func (m *FilePicker) ReadFiles(force bool) {
 				content = "#Empty file"
 			} else {
 				content = fmt.Sprintf("```cpp\n%s\n```", content)
-				headLines := strings.Split(content, "\n")
-				content = strings.Join(headLines[:min(m.height-2, len(headLines))], "\n")
 			}
 
-			m.Files[i].Content, _ = m.renderer.Render(content)
+			content, _ = m.renderer.Render(content)
+
+			headlines := strings.Split(content, "\n")
+			content = strings.Join(headlines[:min(m.height-2, len(headlines))], "\n")
+
+			m.Files[i].Content = content
 
 		}
 	}
@@ -71,7 +74,7 @@ func (m *FilePicker) Rerender(force bool) {
 			glamour.WithWordWrap(m.width-lipgloss.Width(m.treeState)),
 		)
 	}
-	m.treeState = lipgloss.NewStyle().Height(m.height).Render(m.buildTree(true))
+	m.treeState = m.buildTree(true)
 	m.ReadFiles(force)
 }
 
@@ -133,7 +136,7 @@ func (m FilePicker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 
-		case "ctrl+down":
+		case "shift+d":
 			// select the next file
 			for i := range m.Files {
 				if m.Files[i].Selected && i < len(m.Files)-1 {
@@ -144,7 +147,7 @@ func (m FilePicker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					break
 				}
 			}
-		case "ctrl+up":
+		case "shift+u":
 			// select the previous file
 			for i := range m.Files {
 				if m.Files[i].Selected && i > 0 {
@@ -165,7 +168,7 @@ func (m FilePicker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
-		m.height = msg.Height - 3
+		m.height = msg.Height - 1
 		m.Rerender(true)
 	}
 
